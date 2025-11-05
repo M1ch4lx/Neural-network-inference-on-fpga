@@ -92,7 +92,6 @@ docker_run_params=$(cat <<-END
     -v $HERE:/workspace \
     -w /workspace \
     --rm \
-    --network=host \
     ${DETACHED} \
     ${RUN_MODE} \
     $IMAGE_NAME \
@@ -104,11 +103,13 @@ END
 
 if [[ $IMAGE_NAME == *"gpu"* ]]; then
   docker run \
+    -p 8888:8888 \
     $docker_devices \
     --gpus all \
     $docker_run_params
 else
   docker run \
+    -p 8888:8888 \
     $docker_devices \
     $docker_run_params
 fi
